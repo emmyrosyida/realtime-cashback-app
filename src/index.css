@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'CodecPro';
+    font-weight: 100;
+    src: url('../public/fonts/codec-pro/thin.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'CodecPro';
+    font-weight: 400;
+    src: url('../public/fonts/codec-pro/regular.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'CodecPro';
+    font-weight: 700;
+    src: url('../public/fonts/codec-pro/bold.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'CodecPro';
+    font-weight: 800;
+    src: url('../public/fonts/codec-pro/bold-extra.ttf') format('truetype');
+  }
+  html {
+    font-family: CodecPro;
+  }
+
+  .animated-spin-box {
+    --border-size: 10px;
+    --border-angle: 0turn;
+    min-width: 60vw;
+    border-radius: 50px;
+    background-image: conic-gradient(from var(--border-angle), #ffffff , #f9e50620, #ffffff), conic-gradient(from var(--border-angle), transparent, #FFEB0220, #eadb0d);
+    background-size: calc(100% - (var(--border-size) * 2)) calc(100% - (var(--border-size) * 2)), cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-animation: bg-spin 3s linear infinite;
+            animation: bg-spin 3s linear infinite;
+  }
+
+  
+  @-webkit-keyframes bg-spin {
+    to {
+      --border-angle: 1turn;
+    }
+  }
+  @keyframes bg-spin {
+    to {
+      --border-angle: 1turn;
+    }
+  }
+  @property --border-angle {
+    syntax: "<angle>";
+    inherits: true;
+    initial-value: 0turn;
+  }
+}
