@@ -43,6 +43,14 @@ const Counter = () => {
   });
 
   useEffect(() => {
+    const interval = setInterval(() => {
+      setRefetch((x) => !x);
+    }, 300000); // 300000
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
     if (data?.getLatestExpo) {
       getCashbackBalance({
         variables: {
@@ -52,7 +60,7 @@ const Counter = () => {
         },
       });
     }
-  }, [data, dataSubs]);
+  }, [data, dataSubs, refetch]);
 
   useEffect(() => {
     update(balance.balanceAmount);
@@ -67,7 +75,7 @@ const Counter = () => {
 
   const handleStatusChange = () => {
     setIsOnline(navigator.onLine);
-    setRefetch(!refetch);
+    setRefetch((x) => !x);
   };
 
   return (
