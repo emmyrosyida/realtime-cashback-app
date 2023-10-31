@@ -3,7 +3,11 @@ import { useEffect, useRef, useState } from "react";
 import { useCountUp } from "react-countup";
 import { SUBSCRIPTION_GET_BALANCE } from "../apollo/subscription";
 import { useLazyQuery, useQuery, useSubscription } from "@apollo/client";
-import { GET_CASHBACK_BALANCE, GET_LATEST_EXPO } from "../apollo/get";
+import {
+  GET_CASHBACK_BALANCE,
+  GET_LATEST_EXPO,
+  // GET_LIST_EXPO,
+} from "../apollo/get";
 
 const Counter = () => {
   const env = process.env.REACT_APP_NODE_ENV === "production";
@@ -25,9 +29,16 @@ const Counter = () => {
     duration: 20,
   });
 
-  const { data } = useQuery(GET_LATEST_EXPO, {
+  const [getLatestExpo, { data }] = useLazyQuery(GET_LATEST_EXPO, {
     context: { clientName: "expo" },
   });
+
+  // const { data: dataExpo } = useQuery(GET_LIST_EXPO, {
+  //   variables: {
+  //     input: { enablePast: true },
+  //   },
+  //   context: { clientName: "expo" },
+  // });
 
   const [getCashbackBalance] = useLazyQuery(GET_CASHBACK_BALANCE, {
     context: { clientName: "operation" },
@@ -43,6 +54,8 @@ const Counter = () => {
   });
 
   useEffect(() => {
+    getLatestExpo();
+
     const interval = setInterval(() => {
       setRefetch((x) => !x);
     }, 300000); // 300000
@@ -57,6 +70,9 @@ const Counter = () => {
   }, []);
 
   useEffect(() => {
+    if (!data?.getLatestExpo) {
+      getLatestExpo();
+    }
     if (data?.getLatestExpo) {
       getCashbackBalance({
         variables: {
