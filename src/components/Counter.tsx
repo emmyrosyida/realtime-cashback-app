@@ -2,17 +2,25 @@ import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
 import { useCountUp } from "react-countup";
 import { SUBSCRIPTION_GET_BALANCE } from "../apollo/subscription";
-import { useLazyQuery, useQuery, useSubscription } from "@apollo/client";
+import {
+  makeVar,
+  useLazyQuery,
+  useReactiveVar,
+  useSubscription,
+} from "@apollo/client";
 import {
   GET_CASHBACK_BALANCE,
   GET_LATEST_EXPO,
   // GET_LIST_EXPO,
 } from "../apollo/get";
 
+const reSubsVar = makeVar(0);
+
 const Counter = () => {
   const env = process.env.REACT_APP_NODE_ENV === "production";
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [refetch, setRefetch] = useState(false);
+  const reSubs = useReactiveVar(reSubsVar);
 
   const [balance, setBalance] = useState({
     balanceAmount: 0,
@@ -50,6 +58,18 @@ const Counter = () => {
 
   const { data: dataSubs } = useSubscription(SUBSCRIPTION_GET_BALANCE, {
     context: { clientName: "operation" },
+    variables: { reSubs },
+    shouldResubscribe: true,
+    onComplete: () => {
+      console.log("DELETE::SUBSCRIPTION_GET_BALANCE");
+    },
+    onError: (err) => {
+      console.log("DELETE::SUBSCRIPTION_GET_BALANCE", err);
+      refetchData();
+    },
+    onSubscriptionData: () => {
+      console.log("SUBS::SUBSCRIPTION_GET_BALANCE");
+    },
     fetchPolicy: "no-cache",
   });
 
@@ -57,15 +77,17 @@ const Counter = () => {
     getLatestExpo();
 
     const interval = setInterval(() => {
+      console.log("Interval");
       setRefetch((x) => !x);
     }, 300000); // 300000
 
-    window.addEventListener("online", handleStatusChange);
-    window.addEventListener("offline", handleStatusChange);
+    window.addEventListener("online", handleOnlineStatus);
+    window.addEventListener("offline", handleOfflineChange);
 
     return () => {
       clearInterval(interval);
-      window.removeEventListener("online", handleStatusChange);
+      window.removeEventListener("online", handleOnlineStatus);
+      window.removeEventListener("offline", handleOfflineChange);
     };
   }, []);
 
@@ -88,8 +110,20 @@ const Counter = () => {
     update(balance.balanceAmount);
   }, [balance]);
 
-  const handleStatusChange = () => {
+  const handleOfflineChange = () => {
     setIsOnline(navigator.onLine);
+  };
+
+  const handleOnlineStatus = () => {
+    setIsOnline(navigator.onLine);
+
+    setTimeout(() => {
+      refetchData();
+    }, 5000);
+  };
+
+  const refetchData = () => {
+    reSubsVar(Math.random());
     setRefetch((x) => !x);
   };
 
@@ -128,7 +162,6 @@ const Counter = () => {
               d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z"
             />
           </svg>
-
           <span className="pt-1"> {isOnline ? "Online" : "Offline"}</span>
         </span>
       </div>
