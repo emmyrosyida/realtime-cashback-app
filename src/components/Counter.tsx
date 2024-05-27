@@ -110,10 +110,10 @@ const Counter = () => {
         <div className="py-5">
           <TitleText main="Instant Cashpool" sub={`RM ${balance.instantCashpool.toLocaleString()}`} />
         </div>
-        <div className="py-5 ">
+        <div className="py-5">
           <TitleText main="Cash Remaining" />
           <div
-            className={`shadow-yellow-400 shadow-2xl text-[8rem] mb-4 mt-3 relative z-50 py-3 px-8 text-black bg-amber-300 inline-flex justify-center animated-spin-box`}>
+            className={`shadow-yellow-400 w-[800px] shadow-2xl text-[8rem] mb-4 mt-3 relative z-50 py-3 px-8 text-black bg-amber-300 inline-flex justify-center animated-spin-box`}>
             RM
             <span className="p-6" />
             <div ref={countUpRef} />
