@@ -91,7 +91,7 @@ const Counter = () => {
   }
 
   return (
-    <div className="text-center text-white relative bg-[url('../public/bkg-tv.jpg')] bg-cover">
+    <div className="text-center text-white relative h-screen bg-[url('../public/bkg-tv.jpg')] bg-cover">
       <div className="fixed p-8 z-10">
         <img
           src="/duck-expo.png"
@@ -113,7 +113,7 @@ const Counter = () => {
             <span className="pt-1"> {isOnline ? 'Online' : 'Offline'}</span>
           </span>
         </div>
-        <div className="min-w-screen min-h-screen font-extrabold flex-col  bg-cover flex justify-between items-center px-5 py-16">
+        <div className="min-w-screen  font-extrabold flex-col  bg-cover flex justify-between items-center px-5">
           <div className="py-10">
             <h1 className="text-4xl mb-3">Date</h1>
             <h1 className="text-8xl">{`${dayjs().format('DD MMMM YYYY').toLocaleUpperCase()}`}</h1>
@@ -125,18 +125,18 @@ const Counter = () => {
           </div>
           <div>
             <h1 className={`text-6xl mb-3`}>Cash Remaining</h1>
-            <div className="text-[10rem]">
+            <div className="text-[8rem]">
               <div
-                className={`mb-4 relative z-50 mt-4 p-3 px-14 text-black bg-amber-300 inline-flex justify-center animated-spin-box`}>
+                className={`mb-4 relative z-50 mt-4 py-3 px-8 text-black bg-amber-300 inline-flex justify-center animated-spin-box`}>
                 RM
-                <span className="p-4" />
+                <span className="p-6" />
                 <div ref={countUpRef} />
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="absolute top-0 left-0 w-screen h-screen bg-yellow-900/70"></div>
+      <div className="absolute top-0 left-0 w-screen h-screen bg-yellow-500/70"></div>
     </div>
   )
 }
