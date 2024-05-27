@@ -91,52 +91,43 @@ const Counter = () => {
   }
 
   return (
-    <div className="text-center text-white relative h-screen bg-[url('../public/bkg-tv.jpg')] bg-cover">
-      <div className="fixed p-8 z-10">
-        <img
-          src="/duck-expo.png"
-          className=" w-[120px] rounded-full border-solid border-4 border-amber-300"
-          alt="duck-expo"></img>
-      </div>
-      <div className="relative z-50">
-        <div className={`fixed bottom-1 right-1 pr-2 ${isOnline && 'hide'}`}>
-          <span
-            className={`text-xs font-bold inline-flex items-center px-2.5 py-0.5 rounded mr-2 border
+    <div className="relative z-50">
+      <div className={`fixed bottom-1 right-1 pr-2 ${isOnline && 'hide'}`}>
+        <span
+          className={`text-xs font-bold inline-flex items-center px-2.5 py-0.5 rounded mr-2 border
             ${isOnline ? 'bg-green-200 border-green-700 text-green-700' : 'bg-red-200 border-red-700 text-red-700'}`}>
-            <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-3 h-3 mr-1.5">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z"
-              />
-            </svg>
-            <span className="pt-1"> {isOnline ? 'Online' : 'Offline'}</span>
-          </span>
+          <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-3 h-3 mr-1.5">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z"
+            />
+          </svg>
+          <span className="pt-1"> {isOnline ? 'Online' : 'Offline'}</span>
+        </span>
+      </div>
+      <div className="min-w-screen  font-extrabold flex-col  bg-cover flex justify-between items-center px-5">
+        <div className="py-10">
+          <h1 className="text-4xl mb-3">Date</h1>
+          <h1 className="text-8xl">{`${dayjs().format('DD MMMM YYYY').toLocaleUpperCase()}`}</h1>
+          <h1 className="text-4xl ">{`${`(Day ${balance.day})`.toUpperCase()}`}</h1>
         </div>
-        <div className="min-w-screen  font-extrabold flex-col  bg-cover flex justify-between items-center px-5">
-          <div className="py-10">
-            <h1 className="text-4xl mb-3">Date</h1>
-            <h1 className="text-8xl">{`${dayjs().format('DD MMMM YYYY').toLocaleUpperCase()}`}</h1>
-            <h1 className="text-4xl ">{`${`(Day ${balance.day})`.toUpperCase()}`}</h1>
-          </div>
-          <div>
-            <h1 className="text-4xl mb-6">Instant Cashpool</h1>
-            <h1 className="text-8xl mb-3 ">RM {`${balance.instantCashpool.toLocaleString()}`}</h1>
-          </div>
-          <div>
-            <h1 className={`text-6xl mb-3`}>Cash Remaining</h1>
-            <div className="text-[8rem]">
-              <div
-                className={`mb-4 relative z-50 mt-4 py-3 px-8 text-black bg-amber-300 inline-flex justify-center animated-spin-box`}>
-                RM
-                <span className="p-6" />
-                <div ref={countUpRef} />
-              </div>
+        <div>
+          <h1 className="text-4xl mb-6">Instant Cashpool</h1>
+          <h1 className="text-8xl mb-3 ">RM {`${balance.instantCashpool.toLocaleString()}`}</h1>
+        </div>
+        <div>
+          <h1 className={`text-4xl mb-6`}>Cash Remaining</h1>
+          <div className="text-[8rem]">
+            <div
+              className={`mb-4 relative z-50 mt-4 py-3 px-8 text-black bg-amber-300 inline-flex justify-center animated-spin-box`}>
+              RM
+              <span className="p-6" />
+              <div ref={countUpRef} />
             </div>
           </div>
         </div>
       </div>
-      <div className="absolute top-0 left-0 w-screen h-screen bg-yellow-500/70"></div>
     </div>
   )
 }
